@@ -47,9 +47,9 @@ start_singbox() {
 
     if /etc/init.d/sing-box status | grep -q "running"; then
         echo -e "${GREEN}sing-box 启动成功${NC}"
+        apply_firewall
         mode=$(check_mode)
         echo -e "${MAGENTA}当前启动模式: ${mode}${NC}"
-        apply_firewall
     else
         echo -e "${RED}sing-box 启动失败，请检查日志${NC}"
     fi
