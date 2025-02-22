@@ -44,10 +44,12 @@ start_singbox() {
     /etc/init.d/sing-box restart
 
     sleep 2  # 等待 sing-box 启动
+    
+    apply_firewall
 
     if /etc/init.d/sing-box status | grep -q "running"; then
         echo -e "${GREEN}sing-box 启动成功${NC}"
-        apply_firewall
+
         mode=$(check_mode)
         echo -e "${MAGENTA}当前启动模式: ${mode}${NC}"
     else

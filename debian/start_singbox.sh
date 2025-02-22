@@ -55,10 +55,11 @@ start_singbox() {
     fi
 
     sudo systemctl restart sing-box &>/dev/null
+    
+    apply_firewall
 
     if systemctl is-active --quiet sing-box; then
         echo -e "${GREEN}sing-box 启动成功${NC}"
-        apply_firewall
         mode=$(check_mode)
         echo -e "${MAGENTA}当前启动模式: ${mode}${NC}"
     else
