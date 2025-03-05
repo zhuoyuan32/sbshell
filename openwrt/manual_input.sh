@@ -14,56 +14,31 @@ MODE=$(grep -E '^MODE=' /etc/sing-box/mode.conf | sed 's/^MODE=//')
 
 # 提示用户输入参数的函数
 prompt_user_input() {
-    while true; do
-        read -rp "请输入后端地址(不填使用默认值): " BACKEND_URL
-        if [ -z "$BACKEND_URL" ]; then
-            BACKEND_URL=$(grep BACKEND_URL "$DEFAULTS_FILE" 2>/dev/null | cut -d'=' -f2-)
-            if [ -z "$BACKEND_URL" ]; then
-                echo -e "${RED}未设置默认值，请在菜单中设置！${NC}"
-                continue
-            fi
-            echo -e "${CYAN}使用默认后端地址: $BACKEND_URL${NC}"
-        fi
-        break
-    done
+    read -rp "请输入后端地址(回车使用默认值可留空): " BACKEND_URL
+    if [ -z "$BACKEND_URL" ]; then
+        BACKEND_URL=$(grep BACKEND_URL "$DEFAULTS_FILE" 2>/dev/null | cut -d'=' -f2-)
+        echo -e "${CYAN}使用默认后端地址: $BACKEND_URL${NC}"
+    fi
 
-    while true; do
-        read -rp "请输入订阅地址(不填使用默认值): " SUBSCRIPTION_URL
-        if [ -z "$SUBSCRIPTION_URL" ]; then
-            SUBSCRIPTION_URL=$(grep SUBSCRIPTION_URL "$DEFAULTS_FILE" 2>/dev/null | cut -d'=' -f2-)
-            if [ -z "$SUBSCRIPTION_URL" ]; then
-                echo -e "${RED}未设置默认值，请在菜单中设置！${NC}"
-                continue
-            fi
-            echo -e "${CYAN}使用默认订阅地址: $SUBSCRIPTION_URL${NC}"
-        fi
-        break
-    done
+    read -rp "请输入订阅地址(回车使用默认值可留空): " SUBSCRIPTION_URL
+    if [ -z "$SUBSCRIPTION_URL" ]; then
+        SUBSCRIPTION_URL=$(grep SUBSCRIPTION_URL "$DEFAULTS_FILE" 2>/dev/null | cut -d'=' -f2-)
+        echo -e "${CYAN}使用默认订阅地址: $SUBSCRIPTION_URL${NC}"
+    fi
 
-    while true; do
-        read -rp "请输入配置文件地址(不填使用默认值): " TEMPLATE_URL
-        if [ -z "$TEMPLATE_URL" ]; then
-            if [ "$MODE" = "TProxy" ]; then
-                TEMPLATE_URL=$(grep TPROXY_TEMPLATE_URL "$DEFAULTS_FILE" 2>/dev/null | cut -d'=' -f2-)
-                if [ -z "$TEMPLATE_URL" ]; then
-                    echo -e "${RED}未设置默认值，请在菜单中设置！${NC}"
-                    continue
-                fi
-                echo -e "${CYAN}使用默认 TProxy 配置文件地址: $TEMPLATE_URL${NC}"
-            elif [ "$MODE" = "TUN" ]; then
-                TEMPLATE_URL=$(grep TUN_TEMPLATE_URL "$DEFAULTS_FILE" 2>/dev/null | cut -d'=' -f2-)
-                if [ -z "$TEMPLATE_URL" ]; then
-                    echo -e "${RED}未设置默认值，请在菜单中设置！${NC}"
-                    continue
-                fi
-                echo -e "${CYAN}使用默认 TUN 配置文件地址: $TEMPLATE_URL${NC}"
-            else
-                echo -e "${RED}未知的模式: $MODE${NC}"
-                exit 1
-            fi
+    read -rp "请输入配置文件地址(回车使用默认值可留空): " TEMPLATE_URL
+    if [ -z "$TEMPLATE_URL" ]; then
+        if [ "$MODE" = "TProxy" ]; then
+            TEMPLATE_URL=$(grep TPROXY_TEMPLATE_URL "$DEFAULTS_FILE" 2>/dev/null | cut -d'=' -f2-)
+            echo -e "${CYAN}使用默认 TProxy 配置文件地址: $TEMPLATE_URL${NC}"
+        elif [ "$MODE" = "TUN" ]; then
+            TEMPLATE_URL=$(grep TUN_TEMPLATE_URL "$DEFAULTS_FILE" 2>/dev/null | cut -d'=' -f2-)
+            echo -e "${CYAN}使用默认 TUN 配置文件地址: $TEMPLATE_URL${NC}"
+        else
+            echo -e "${RED}未知的模式: $MODE${NC}"
+            exit 1
         fi
-        break
-    done
+    fi
 }
 
 while true; do
