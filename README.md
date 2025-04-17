@@ -20,7 +20,7 @@ Sbshell 是一款针对 官方sing-box 的辅助运行脚本，旨在解决官�
 
 ## 一键脚本：(请自行安装curl和bash，如果缺少的话)
 ```
-bash <(curl -sL https://gh-proxy.com/https://raw.githubusercontent.com/qichiyuhub/sbshell/refs/heads/master/sbshall.sh)
+bash <(curl -sL https://gh-proxy.com/https://raw.githubusercontent.com/qichiyuhub/sbshell/refs/heads/main/sbshall.sh)
 ```
 - 初始化运行结束，输入“**sb**”进入菜单
 - 目前支持系统为deiban/ubuntu/armbian/openwrt。  
@@ -38,10 +38,10 @@ bash <(curl -sL https://gh-proxy.com/https://raw.githubusercontent.com/qljsyph/D
 
 ### 稳定版(1.11)：  
 tproxy：  
-https://gh-proxy.com/https://raw.githubusercontent.com/qichiyuhub/sbshell/refs/heads/master/config_template/config_tproxy.json  
+https://gh-proxy.com/https://raw.githubusercontent.com/qichiyuhub/sbshell/refs/heads/main/config_template/config_tproxy.json  
 
 tun：  
-https://gh-proxy.com/https://raw.githubusercontent.com/qichiyuhub/sbshell/refs/heads/master/config_template/config_tun.json  
+https://gh-proxy.com/https://raw.githubusercontent.com/qichiyuhub/sbshell/refs/heads/main/config_template/config_tun.json  
 
 
 ## Youtube视频教程：
