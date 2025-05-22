@@ -8,7 +8,7 @@ RED='\033[0;31m'
 NC='\033[0m' # 无颜色
 
 # 脚本下载目录
-SCRIPT_DIR="/etc/sing-box/scripts"
+#SCRIPT_DIR="/etc/sing-box/scripts"
 
 # 检查当前模式
 check_mode() {
