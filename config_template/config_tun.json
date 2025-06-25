@@ -45,8 +45,8 @@
     "tag": "tun-in",
     "type": "tun",
     "address": [
-      "172.19.0.1/30",
-      "fdfe:dcba:9876::1/126"
+      "198.21.0.1/16",
+      "fdfe:dcba:9876::1/64"
     ],
     "mtu": 9000,
     "auto_route": true,
