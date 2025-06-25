@@ -76,6 +76,7 @@
     { "tag": "GLOBAL", "type": "selector", "outbounds": ["{all}"]},
     { "tag": "➡️ 直连", "type": "direct" }
   ],
+
   
   "route": 
  {
