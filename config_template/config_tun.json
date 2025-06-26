@@ -25,7 +25,7 @@
  {
    "servers": 
   [
-    {"tag": "dns_direct", "address": "211.136.192.6", "address_strategy": "prefer_ipv4", "strategy": "prefer_ipv6", "detour": "➡️ 直连"},
+    {"tag": "dns_direct", "address": "211.136.192.6", "address_strategy": "prefer_ipv6", "strategy": "prefer_ipv6", "detour": "➡️ 直连"},
     {"tag": "dns_proxy", "address": "tls://8.8.8.8", "address_strategy": "ipv4_only", "strategy": "ipv4_only", "detour": "🚀 节点选择"},
     {"tag": "dns_direct_ipv6", "address": "2400:3200::1", "address_strategy": "ipv6_only", "strategy": "ipv6_only", "detour": "➡️ 直连"}
   ],
