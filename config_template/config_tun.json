@@ -24,20 +24,21 @@
  "dns": 
  {
    "servers": 
-   [
-     {"tag": "dns_direct", "address": "192.168.6.4", "address_strategy": "ipv4_only", "strategy": "prefer_ipv6", "detour": "➡️ 直连"},
-     {"tag": "dns_proxy", "address": "tls://8.8.8.8", "address_strategy": "ipv4_only", "strategy": "ipv4_only", "detour": "🚀 节点选择"}
-   ],
-   "rules": 
-   [
-     {"outbound": "any", "server": "dns_direct", "disable_cache": true},
-     {"clash_mode": "Direct", "server": "dns_direct"},
-     {"clash_mode": "Global", "server": "dns_proxy"},
-     {"rule_set": "geosite-cn", "action": "route","server": "dns_direct"},
-     {"rule_set": "geosite-geolocation-!cn", "server": "dns_proxy"}
-   ],
-   "final": "dns_proxy",
-   "strategy": "prefer_ipv6"
+  [
+    {"tag": "dns_direct", "address": "192.168.6.4", "address_strategy": "ipv4_only", "strategy": "prefer_ipv6", "detour": "➡️ 直连"},
+    {"tag": "dns_proxy", "address": "tls://8.8.8.8", "address_strategy": "ipv4_only", "strategy": "prefer_ipv6", "detour": "🚀 节点选择"},
+    {"tag": "dns_direct_ipv6", "address": "2400:3200::1", "address_strategy": "ipv6_only", "strategy": "ipv6_only", "detour": "➡️ 直连"}  // 新增IPv6专用服务器
+  ],
+  "rules": 
+  [
+    {"outbound": "any", "server": "dns_direct", "disable_cache": true},
+    {"clash_mode": "Direct", "server": "dns_direct"},
+    {"clash_mode": "Global", "server": "dns_proxy"},
+    {"rule_set": "geosite-cn", "server": "dns_direct_ipv6"},  // 指定国内域名用IPv6解析
+    {"rule_set": "geosite-geolocation-!cn", "server": "dns_proxy"}  // 国外域名代理解析
+  ],
+  "final": "dns_proxy",  // 默认回退DNS
+  "strategy": "prefer_ipv6"  // 优先IPv6
 },
 
 "inbounds": [
