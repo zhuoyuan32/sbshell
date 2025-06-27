@@ -97,9 +97,6 @@
    [
      {"action": "sniff"},
      {"protocol": "dns", "action": "hijack-dns"},
-     {"domain_suffix": ["qichiyu.com", "hongxingyunmovie.vip", "bulianglin.com"], "outbound": "dns_proxy"},
-     {"domain_suffix": ["zhuoyuan32.com"], "outbound": "🎯 全球直连"},
-     {"domain_keyword": ["m-team", "ptcafe", "cspt", "lemonhd", "rousi", "suxiaoyi"], "outbound": "🎯 全球直连"},
      {"clash_mode": "direct", "outbound": "🎯 全球直连"},
      {"clash_mode": "global", "outbound": "GLOBAL"},
      {"rule_set": "geosite-private", "outbound": "🎯 全球直连"},
