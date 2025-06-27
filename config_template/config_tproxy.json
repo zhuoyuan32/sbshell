@@ -33,6 +33,7 @@
     {"outbound": "any", "server": "dns_direct", "disable_cache": true},
     {"clash_mode": "Direct", "server": "dns_direct"},
     {"clash_mode": "Global", "server": "dns_proxy"},
+    {"domain": "www.qichiyu.com","disable_ipv6": true},
     {"rule_set": "geosite-cn", "action": "route","server": "dns_direct"},
     {"rule_set": "geosite-geolocation-!cn", "server": "dns_proxy"}
   ],
@@ -89,7 +90,6 @@
      {"protocol": "dns", "action": "hijack-dns"},
      {"clash_mode": "direct", "outbound": "➡️ 直连"},
      {"clash_mode": "global", "outbound": "GLOBAL"},
-     {"domain": "www.qichiyu.com","disable_ipv6": true},
      {"domain_suffix": ["qichiyu.com", "hongxingyunmovie.vip", "bulianglin.com"], "outbound": "🚀 节点选择"},
      {"domain_suffix": ["zhuoyuan32.com"], "outbound": "➡️ 直连"},
      {"domain_keyword": ["m-team", "ptcafe", "cspt", "lemonhd", "rousi", "suxiaoyi"], "outbound": "➡️ 直连"},
