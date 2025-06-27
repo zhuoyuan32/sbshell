@@ -89,6 +89,7 @@
      {"protocol": "dns", "action": "hijack-dns"},
      {"clash_mode": "direct", "outbound": "➡️ 直连"},
      {"clash_mode": "global", "outbound": "GLOBAL"},
+     {"domain": "www.qichiyu.com","disable_ipv6": true},
      {"domain_suffix": ["qichiyu.com", "hongxingyunmovie.vip", "bulianglin.com"], "outbound": "🚀 节点选择"},
      {"domain_suffix": ["zhuoyuan32.com"], "outbound": "➡️ 直连"},
      {"domain_keyword": ["m-team", "ptcafe", "cspt", "lemonhd", "rousi", "suxiaoyi"], "outbound": "➡️ 直连"},
