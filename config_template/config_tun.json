@@ -24,7 +24,7 @@
 {
   "servers": 
   [
-    {"tag": "dns_direct", "address": "223.5.5.5", "address_strategy": "prefer_ipv4", "strategy": "prefer_ipv6", "detour": "➡️ 直连"},
+    {"tag": "dns_direct", "address": "192.168.6.4", "address_strategy": "prefer_ipv4", "strategy": "prefer_ipv6", "detour": "➡️ 直连"},
     {"tag": "dns_proxy", "address": "tls://8.8.8.8", "address_strategy": "ipv4_only", "strategy": "prefer_ipv6", "detour": "🚀 节点选择"}
   ],
   "rules": 
@@ -36,7 +36,7 @@
     {"rule_set": "geosite-geolocation-!cn", "server": "dns_proxy"}
   ],
   "final": "dns_proxy",
-  "strategy": "prefer_ipv6"
+  "strategy": "prefer_ipv4"
 },
 
 "inbounds": [
@@ -102,6 +102,7 @@
      {"domain_suffix": ["zhuoyuan32.com"], "outbound": "➡️ 直连"},
      {"domain_keyword": ["m-team", "ptcafe", "cspt", "lemonhd", "rousi", "suxiaoyi"], "outbound": "➡️ 直连"},
      {"rule_set": "geosite-private", "outbound": "➡️ 直连"},
+     {"rule_set": "geosite-pt", "outbound": "➡️ 直连"},
      {"rule_set": "geosite-shopee", "outbound": "Shopee"},
      {"rule_set": "geosite-paypal", "outbound": "PayPal"},
      {"rule_set": "geosite-chat", "outbound": "🤖 OpenAI"},
@@ -134,6 +135,7 @@
       { "tag": "geosite-geolocation-!cn", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/geolocation-!cn.srs", "download_detour": "➡️ 直连" },
       { "tag": "geosite-cn", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/cn.srs", "download_detour": "➡️ 直连" },
       { "tag": "geosite-private", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/private.srs", "download_detour": "➡️ 直连" },
+      { "tag": "geosite-pt", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/category-pt.srs", "download_detour": "➡️ 直连" },
             
       { "tag": "geoip-google", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/google.srs", "download_detour": "➡️ 直连" },
       { "tag": "geoip-telegram", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/telegram.srs", "download_detour": "➡️ 直连" },     
