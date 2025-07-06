@@ -48,7 +48,7 @@
     ],
     "mtu": 9000,
     "auto_route": true,
-    "sniff": true
+    "auto_redirect": true
   },
   {
     "tag": "mixed-in",
