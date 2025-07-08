@@ -24,8 +24,7 @@
  "dns": {
         "servers": 
         [
-          {"tag": "localDns", "type": "tls", "server": "223.5.5.5"},
-          {"tag": "nodedns", "type": "tls", "server": "223.6.6.6"},
+          {"tag": "localDns", "address": "223.5.5.5", "address_strategy": "prefer_ipv4", "strategy": "prefer_ipv6", "detour": "➡️ 直连"},
           {"tag": "fakeipDNS", "type": "fakeip", "inet4_range": "28.0.0.1/8", "inet6_range": "f2b0::/18"}
         ],
         "rules": [
@@ -34,6 +33,7 @@
         "independent_cache": true,
         "disable_expire": false,
         "final": "localDns"
+        "strategy": "prefer_ipv4"
     },
   "inbounds": [
         {
