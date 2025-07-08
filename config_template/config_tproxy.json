@@ -9,7 +9,7 @@
     "clash_api": {
       "external_controller": "0.0.0.0:9095",
       "external_ui": "/etc/sing-box/ui",
-      "secret": "910310",
+      "secret": "",
       "external_ui_download_url": "https://gh-proxy.com/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
       "external_ui_download_detour": "➡️ 直连",
       "default_mode": "rule"
@@ -21,53 +21,54 @@
     }
   },
 
- "dns": {
-        "servers": 
-        [
-          {"tag": "localDns", "address": "223.5.5.5", "address_strategy": "prefer_ipv4", "strategy": "prefer_ipv6", "detour": "➡️ 直连"},
-          {"tag": "fakeipDNS", "type": "fakeip", "inet4_range": "28.0.0.1/8", "inet6_range": "f2b0::/18"}
-        ],
-        "rules": [
-            {"inbound": "in-dns", "server": "fakeipDNS", "disable_cache": false, "rewrite_ttl": 1}
-        ],
-        "independent_cache": true,
-        "disable_expire": false,
-        "final": "localDns"
-        "strategy": "prefer_ipv4"
-    },
-  "inbounds": [
-        {
-            "tag": "mixed-in",
-            "type": "mixed",
-            "listen": "0.0.0.0",
-            "listen_port": 7893
-        },
-        {
-            "type": "direct",
-            "tag": "in-dns",
-            "tcp_fast_open": true,
-            "listen": "::",
-            "listen_port": 6666
-        },
-        {
-            "type": "tproxy",
-            "tag": "tp",
-            "listen": "::",
-            "listen_port": 7896,
-            "tcp_fast_open": true,
-            "sniff_override_destination": false,
-            "sniff_timeout": "300ms",
-            "udp_disable_domain_unmapping": false,
-            "udp_timeout": "5m"
-        },
-        {
-            "type": "redirect",
-            "tag": "redirect-in",
-            "listen": "::",
-            "sniff_override_destination": true,
-            "listen_port": 7877
-        }
-    ],
+ "dns": 
+ {
+   "servers": 
+   [
+     {"tag": "dns_direct", "address": "223.5.5.5", "address_strategy": "ipv4_only", "strategy": "prefer_ipv6", "detour": "➡️ 直连"},
+     {"tag": "fakeipDNS", "type": "fakeip", "inet4_range": "28.0.0.1/8", "inet6_range": "f2b0::/18"}
+   ],
+   "rules": 
+   [
+     {"outbound": "any", "server": "dns_direct", "disable_cache": true},
+     {"inbound": "in-dns", "server": "fakeipDNS", "disable_cache": false, "rewrite_ttl": 1},
+     {"clash_mode": "Direct", "server": "dns_direct"},
+     {"clash_mode": "Global", "server": "dns_proxy"},
+     {"rule_set": "geosite-cn", "server": "fakeipDNS"},
+     {"rule_set": "geosite-geolocation-!cn", "server": "fakeipDNS"}
+   ],
+   "final": "fakeipDNS",
+   "strategy": "ipv4_only"
+},
+
+"inbounds": [
+   {
+     "tag": "mixed-in",
+     "type": "mixed",
+     "listen": "0.0.0.0",
+     "listen_port": 7893
+  },
+  {
+   "type": "direct",
+   "tag": "in-dns",
+   "tcp_fast_open": true,
+   "listen": "::",
+   "listen_port": 6666
+  },
+  {
+    "type": "tproxy",
+    "tag": "tproxy-in",
+    "listen": "0.0.0.0",
+    "listen_port": 7895
+  },
+  {
+    "type": "redirect",
+    "tag": "redirect-in",
+    "listen": "::",
+    "sniff_override_destination": true,
+    "listen_port": 7877
+  }
+],
 
   "outbounds": [
     { "tag": "🚀 节点选择", "type": "selector", "outbounds": ["🔯 香港自动", "🔯 台湾自动", "🇭🇰 香港节点", "🇨🇳 台湾节点", "🏠 家宽节点", "🇸🇬 新加坡节点", "🇯🇵 日本节点", "🇺🇲 美国节点", "🐸 手动切换", "♻️ 自动选择", "➡️ 直连"] },
@@ -100,17 +101,14 @@
   
   "route": 
  {
-   "default_domain_resolver": {"server": "localDns"},
    "auto_detect_interface": true,
    "final": "🐠 兜底策略",
-   "default_mark": 666,
    "rules": 
    [
      {"action": "sniff"},
-     {"protocol": "in-dns", "action": "hijack-dns"},
-     {"ip_cidr": ["8.8.8.8", "8.8.4.4", "1.1.1.1", "1.0.0.1", "9.9.9.9"], "outbound": "🚀 节点选择"},
-     {"ip_cidr": ["223.5.5.5", "223.6.6.6", "119.29.29.29", "119.28.28.28"], "outbound": "direct"},
-     {"network": "udp", "port": 443, "action": "reject", "method": "drop"},
+     {"inbound": "in-dns", "action": "hijack-dns"},
+     {"clash_mode": "direct", "outbound": "➡️ 直连"},
+     {"clash_mode": "global", "outbound": "GLOBAL"},
      {"domain_suffix": ["qichiyu.com", "hongxingyunmovie.vip", "bulianglin.com"], "outbound": "🚀 节点选择"},
      {"domain_keyword": ["m-team", "ptcafe", "cspt", "lemonhd", "rousi", "suxiaoyi"], "outbound": "➡️ 直连"},
      {"rule_set": "geosite-private", "outbound": "➡️ 直连"},
