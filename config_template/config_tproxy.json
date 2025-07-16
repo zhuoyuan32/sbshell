@@ -17,6 +17,7 @@
   "cache_file": {
     "enabled": true,
     "path": "/etc/sing-box/cache.db",
+    "cache_id": "my_profile1",
     "store_fakeip": true
     }
   },
@@ -102,6 +103,7 @@
  {
    "final": "🐠 兜底策略",
    "auto_detect_interface": true,
+   "default_mark": 1,
    "rules": 
    [
      {"inbound": "in-dns", "action": "hijack-dns"},
