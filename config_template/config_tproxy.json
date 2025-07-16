@@ -1,35 +1,39 @@
 {
   "log": {
     "disabled": false,
-    "level": "info",
+    "level": "panic",
     "timestamp": true
   },
-  
-  "experimental": {
-    "clash_api": {
-      "external_controller": "0.0.0.0:9095",
-      "external_ui": "/etc/sing-box/ui",
-      "secret": "",
-      "external_ui_download_url": "https://gh-proxy.com/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
-      "external_ui_download_detour": "➡️ 直连",
-      "default_mode": "rule"
-    },
-  "cache_file": {
-    "enabled": true,
-    "path": "/etc/sing-box/cache.db",
-    "store_fakeip": true
-    }
-  },
-
- "dns": {
+  "dns": {
     "servers": [
-      {"tag": "nodedns", "address": "tls://223.5.5.5:853", "detour": "➡️ 直连"},
-      {"tag": "fakeipDNS", "address": "fakeip"}
+      {
+        "tag": "nodedns",
+        "address": "tls://223.5.5.5:853",
+        "detour": "➡️ 直连"
+      },
+      {
+        "tag": "fakeipDNS",
+        "address": "fakeip"
+      }
     ],
     "rules": [
-      {"query_type": ["SVCB"], "server": "block"},
-      {"inbound": "dns-in", "server": "fakeipDNS", "disable_cache": false, "rewrite_ttl": 1},
-      {"outbound": "any", "server": "nodedns", "disable_cache": true}
+      {
+        "query_type": [
+          "SVCB"
+        ],
+        "server": "block"
+      },
+      {
+        "inbound": "dns-in",
+        "server": "fakeipDNS",
+        "disable_cache": false,
+        "rewrite_ttl": 1
+      },
+      {
+        "outbound": "any",
+        "server": "nodedns",
+        "disable_cache": true
+      }
     ],
     "fakeip": {
       "enabled": true,
@@ -100,8 +104,6 @@
   
   "route": 
  {
-   "final": "🐠 兜底策略",
-   "auto_detect_interface": true,
    "rules": 
    [
      {"inbound": "in-dns", "action": "hijack-dns"},
@@ -151,6 +153,23 @@
       { "tag": "geoip-apple", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/apple.srs", "download_detour": "➡️ 直连" },
       { "tag": "geoip-cn", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/cn.srs", "download_detour": "➡️ 直连" },
       { "tag": "geoip-private", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/private.srs", "download_detour": "➡️ 直连" }
-    ]
+    ],
+    "final": "🐠 兜底策略",
+    "auto_detect_interface": true,
+    "default_mark": 1
+  },
+  "experimental": {
+    "clash_api": {
+      "external_controller": "0.0.0.0:9090",
+      "external_ui": "/etc/sing-box/ui",
+      "secret": "",
+      "default_mode": "rule"
+    },
+    "cache_file": {
+      "enabled": true,
+      "path": "/etc/sing-box/cache.db",
+      "cache_id": "my_profile1",
+      "store_fakeip": true
+    }
   }
 }
