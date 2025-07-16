@@ -21,55 +21,54 @@
     }
   },
 
- "dns": 
- {
-   "servers": 
-   [
-     {"tag": "dns_direct", "address": "223.5.5.5", "address_strategy": "ipv4_only", "strategy": "prefer_ipv6", "detour": "➡️ 直连"},
-     {"tag": "fakeipDNS", "type": "fakeip", "inet4_range": "28.0.0.1/8", "inet6_range": "f2b0::/18"}
-   ],
-   "rules": 
-   [
-     {"outbound": "any", "server": "dns_direct", "disable_cache": true},
-     {"inbound": "in-dns", "server": "fakeipDNS", "disable_cache": false, "rewrite_ttl": 1},
-     {"clash_mode": "Direct", "server": "dns_direct"},
-     {"clash_mode": "Global", "server": "dns_proxy"},
-     {"rule_set": "geosite-cn", "server": "fakeipDNS"},
-     {"rule_set": "geosite-geolocation-!cn", "server": "fakeipDNS"}
-   ],
-   "final": "fakeipDNS",
-   "strategy": "ipv4_only"
-},
-
-"inbounds": [
-   {
-     "tag": "mixed-in",
-     "type": "mixed",
-     "listen": "0.0.0.0",
-     "listen_port": 7893
+ "dns": {
+    "servers": [
+      {"tag": "nodedns","address": "tls://223.5.5.5:853","detour": "➡️ 直连"},
+      {"tag": "fakeipDNS","address": "fakeip"}
+    ],
+    "rules": [
+      {"query_type": ["SVCB"],"server": "block"},
+      {"inbound": "dns-in","server": "fakeipDNS","disable_cache": false,"rewrite_ttl": 1},
+      {"outbound": "any","server": "nodedns","disable_cache": true}
+    ],
+    "fakeip": {
+      "enabled": true,
+      "inet4_range": "28.0.0.1/8",
+      "inet6_range": "f2b0::/18"
+    },
+    "independent_cache": true
   },
-  {
-   "type": "direct",
-   "tag": "in-dns",
-   "tcp_fast_open": true,
-   "listen": "::",
-   "listen_port": 6666
-  },
-  {
-    "type": "tproxy",
-    "tag": "tproxy-in",
-    "listen": "0.0.0.0",
-    "listen_port": 7895
-  },
-  {
-    "type": "redirect",
-    "tag": "redirect-in",
-    "listen": "::",
-    "sniff_override_destination": true,
-    "listen_port": 7877
-  }
-],
-
+  "inbounds": [
+    {
+      "type": "mixed",
+      "listen": "::",
+      "listen_port": 10000
+    },
+    {
+      "type": "direct",
+      "tag": "dns-in",
+      "listen": "::",
+      "listen_port": 6666
+    },
+    {
+      "type": "redirect",
+      "tag": "redirect-in",
+      "listen": "::",
+      "sniff_override_destination": true,
+      "listen_port": 7877,
+      "sniff": true
+    },
+    {
+      "type": "tproxy",
+      "tag": "tproxy-in",
+      "listen": "::",
+      "listen_port": 7896,
+      "tcp_fast_open": true,
+      "sniff": true,
+      "sniff_override_destination": false,
+      "sniff_timeout": "100ms"
+    }
+  ],
   "outbounds": [
     { "tag": "🚀 节点选择", "type": "selector", "outbounds": ["🔯 香港自动", "🔯 台湾自动", "🇭🇰 香港节点", "🇨🇳 台湾节点", "🏠 家宽节点", "🇸🇬 新加坡节点", "🇯🇵 日本节点", "🇺🇲 美国节点", "🐸 手动切换", "♻️ 自动选择", "➡️ 直连"] },
     { "tag": "Shopee", "type": "selector", "outbounds": ["🚀 节点选择", "🔯 香港自动", "🔯 台湾自动", "🇭🇰 香港节点", "🇨🇳 台湾节点", "🏠 家宽节点", "🇸🇬 新加坡节点", "🇯🇵 日本节点", "🇺🇲 美国节点", "🐸 手动切换", "♻️ 自动选择", "➡️ 直连"] },
@@ -101,14 +100,14 @@
   
   "route": 
  {
-   "auto_detect_interface": true,
    "final": "🐠 兜底策略",
+   "auto_detect_interface": true,
+   "default_mark": 666
    "rules": 
    [
-     {"action": "sniff"},
      {"inbound": "in-dns", "action": "hijack-dns"},
-     {"clash_mode": "direct", "outbound": "➡️ 直连"},
-     {"clash_mode": "global", "outbound": "GLOBAL"},
+     {"network": "udp", "port": 443, "action": "reject", "method": "drop"},
+     {"ip_is_private": true, "outbound": "➡️ 直连"},
      {"domain_suffix": ["qichiyu.com", "hongxingyunmovie.vip", "bulianglin.com"], "outbound": "🚀 节点选择"},
      {"domain_keyword": ["m-team", "ptcafe", "cspt", "lemonhd", "rousi", "suxiaoyi"], "outbound": "➡️ 直连"},
      {"rule_set": "geosite-private", "outbound": "➡️ 直连"},
