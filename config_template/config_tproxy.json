@@ -17,20 +17,23 @@
                 "server": "223.6.6.6"
             },
             {
-                "type": "fakeip",
-                "tag": "fakeipDNS",
-                "inet4_range": "28.0.0.1/8",
-                "inet6_range": "f2b0::/18"
-            }
+               "tag": "fakeipDNS",
+               "address": "fakeip"
+           }
         ],
         "rules": [
             {
-                "inbound": "in-dns",
+                "inbound": "dns-in",
                 "server": "fakeipDNS",
                 "disable_cache": false,
                 "rewrite_ttl": 1
             }
         ],
+        "fakeip": {
+          "enabled": true,
+          "inet4_range": "28.0.0.1/8",
+          "inet6_range": "f2b0::/18"
+        },
         "independent_cache": true,
         "disable_expire": false,
         "final": "localDns"
@@ -111,9 +114,38 @@
    "auto_detect_interface": true,
    "rules": 
    [
-     {"inbound": "in-dns", "action": "hijack-dns"},
-     {"network": "udp", "port": 443, "action": "reject", "method": "drop"},
-     {"ip_is_private": true, "outbound": "direct"},
+     {
+                "action": "sniff"
+            },
+            {
+                "inbound": "in-dns",
+                "action": "hijack-dns"
+            },
+            {
+                "ip_cidr": [
+                    "8.8.8.8",
+                    "8.8.4.4",
+                    "1.1.1.1",
+                    "1.0.0.1",
+                    "9.9.9.9"
+                ],
+                "outbound": "🚀 节点选择"
+            },
+            {
+                "ip_cidr": [
+                    "223.5.5.5",
+                    "223.6.6.5",
+                    "119.29.29.29",
+                    "119.28.28.28"
+                ],
+                "outbound": "direct"
+            },
+            {
+                "network": "udp",
+                "port": 443,
+                "action": "reject",
+                "method": "drop"
+            },
      {"domain_suffix": ["qichiyu.com", "hongxingyunmovie.vip", "bulianglin.com"], "outbound": "🚀 节点选择"},
      {"domain_keyword": ["m-team", "ptcafe", "cspt", "lemonhd", "rousi", "suxiaoyi"], "outbound": "direct"},
      {"rule_set": "geosite-private", "outbound": "direct"},
