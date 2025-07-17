@@ -167,7 +167,6 @@
     "cache_file": {
       "enabled": true,
       "path": "/etc/sing-box/cache.db",
-      "cache_id": "my_profile1",
       "store_fakeip": true
     }
   }
