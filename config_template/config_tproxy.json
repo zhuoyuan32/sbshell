@@ -103,7 +103,9 @@
   ],
   
   "route": 
- {
+ {  
+   "final": "🐠 兜底策略",
+   "auto_detect_interface": true,
    "rules": 
    [
      {"inbound": "in-dns", "action": "hijack-dns"},
@@ -153,9 +155,7 @@
       { "tag": "geoip-apple", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo-lite/geoip/apple.srs", "download_detour": "➡️ 直连" },
       { "tag": "geoip-cn", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/cn.srs", "download_detour": "➡️ 直连" },
       { "tag": "geoip-private", "type": "remote", "format": "binary", "url": "https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/private.srs", "download_detour": "➡️ 直连" }
-    ],
-    "final": "🐠 兜底策略",
-    "auto_detect_interface": true,
+    ]    
   },
   "experimental": {
     "clash_api": {
