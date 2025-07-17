@@ -5,74 +5,77 @@
     "timestamp": true
   },
   "dns": {
-    "servers": [
-      {
-        "tag": "nodedns",
-        "address": "192.168.6.4",
-        "detour": "direct"
-      },
-      {
-        "tag": "fakeipDNS",
-        "address": "fakeip"
-      }
-    ],
-    "rules": [
-      {
-        "query_type": [
-          "SVCB"
+        "servers": [
+            {
+                "tag": "localDns",
+                "type": "tls",
+                "server": "223.5.5.5"
+            },
+            {
+                "tag": "nodedns",
+                "type": "tls",
+                "server": "223.6.6.6"
+            },
+            {
+                "type": "fakeip",
+                "tag": "fakeipDNS",
+                "inet4_range": "28.0.0.1/8",
+                "inet6_range": "f2b0::/18"
+            }
         ],
-        "server": "block"
-      },
-      {
-        "inbound": "dns-in",
-        "server": "fakeipDNS",
-        "disable_cache": false,
-        "rewrite_ttl": 1
-      },
-      {
-        "outbound": "any",
-        "server": "nodedns",
-        "disable_cache": true
-      }
+        "rules": [
+            {
+                "inbound": "in-dns",
+                "server": "fakeipDNS",
+                "disable_cache": false,
+                "rewrite_ttl": 1
+            }
+        ],
+        "independent_cache": true,
+        "disable_expire": false,
+        "final": "localDns"
+    },
+    "inbounds": [
+        {
+            "type": "mixed",
+            "listen": "::",
+            "listen_port": 10000
+        },
+        {
+            "type": "direct",
+            "tag": "in-dns",
+            "tcp_fast_open": true,
+            "listen": "::",
+            "listen_port": 6666
+        },
+        {
+            "type": "tproxy",
+            "tag": "tp",
+            "listen": "::",
+            "listen_port": 7896,
+            "tcp_fast_open": true,
+            "sniff_override_destination": false,
+            "sniff_timeout": "300ms",
+            "udp_disable_domain_unmapping": false,
+            "udp_timeout": "5m"
+        },
+        {
+            "type": "redirect",
+            "tag": "redirect-in",
+            "listen": "::",
+            "sniff_override_destination": true,
+            "listen_port": 7877
+        },
+        {
+            "type": "socks",
+            "listen": "0.0.0.0",
+            "listen_port": 7891,
+            "tcp_multi_path": false,
+            "tcp_fast_open": false,
+            "udp_fragment": false,
+            "users": []
+        }
     ],
-    "fakeip": {
-      "enabled": true,
-      "inet4_range": "28.0.0.1/8",
-      "inet6_range": "f2b0::/18"
-    },
-    "independent_cache": true
-  },
-  "inbounds": [
-    {
-      "type": "mixed",
-      "listen": "::",
-      "listen_port": 10000
-    },
-    {
-      "type": "direct",
-      "tag": "dns-in",
-      "listen": "::",
-      "listen_port": 6666
-    },
-    {
-      "type": "redirect",
-      "tag": "redirect-in",
-      "listen": "::",
-      "sniff_override_destination": true,
-      "listen_port": 7877,
-      "sniff": true
-    },
-    {
-      "type": "tproxy",
-      "tag": "tproxy-in",
-      "listen": "::",
-      "listen_port": 7896,
-      "tcp_fast_open": true,
-      "sniff": true,
-      "sniff_override_destination": false,
-      "sniff_timeout": "100ms"
-    }
-  ],
   "outbounds": [
     { "tag": "🚀 节点选择", "type": "selector", "outbounds": ["🔯 香港自动", "🔯 台湾自动", "🇭🇰 香港节点", "🇨🇳 台湾节点", "🏠 家宽节点", "🇸🇬 新加坡节点", "🇯🇵 日本节点", "🇺🇲 美国节点", "🐸 手动切换", "♻️ 自动选择", "direct"] },
     { "tag": "Shopee", "type": "selector", "outbounds": ["🚀 节点选择", "🔯 香港自动", "🔯 台湾自动", "🇭🇰 香港节点", "🇨🇳 台湾节点", "🏠 家宽节点", "🇸🇬 新加坡节点", "🇯🇵 日本节点", "🇺🇲 美国节点", "🐸 手动切换", "♻️ 自动选择", "direct"] },
