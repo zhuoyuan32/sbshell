@@ -156,13 +156,12 @@
     ],
     "final": "🐠 兜底策略",
     "auto_detect_interface": true,
-    "default_mark": 1
   },
   "experimental": {
     "clash_api": {
-      "external_controller": "0.0.0.0:9090",
+      "external_controller": "0.0.0.0:9095",
       "external_ui": "/etc/sing-box/ui",
-      "secret": "",
+      "secret": "910310",
       "default_mode": "rule"
     },
     "cache_file": {
